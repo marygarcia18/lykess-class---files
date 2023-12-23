@@ -275,6 +275,10 @@ if (isset($_POST["remark-btn"])) {
                             <h5>Number of Items</h5>
                             <input type="number" class="inputItem" name="inputItem" id="inputItem">
                           </div>
+                          <div>
+                            <h5>Remarks</h5>
+                            <input type="text" class="inputRemarks" name="inputRemarks" id="inputRemarks">
+                          </div>
                       </div>
                       <button class="progress-btn" id="progress-btn" type="button">Calculate</button>
 

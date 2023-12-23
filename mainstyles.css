@@ -42,15 +42,7 @@ body{
   background-color: var(--bg-body);
 }
 /*pwedeng ilipat nalang to sa kahit saang style na pang class list*/
-.container input[type="text"] {
-    margin: 10px 0;
-    padding: 5px;
-    width: 80%;
-    border: 1px solid #A1ccd1;
-    border-radius: 15px;
-    padding-left: 10px;
-    background-color: #e8f8ff;
-}
+
 .remark-btn{
 	background: var(--color-default);;
 	color: white;

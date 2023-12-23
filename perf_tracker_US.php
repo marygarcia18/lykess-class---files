@@ -7,7 +7,7 @@ include "connect1.php";
 
 $userId = isset($_SESSION["username"]) ? $_SESSION["username"] : null;
 
-$progressQuery = "SELECT week, percent FROM progress WHERE studID_number = ?";
+$progressQuery = "SELECT week, percent, remark FROM progress WHERE studID_number = ?";
 $progressStmt = mysqli_prepare($conn, $progressQuery);
 mysqli_stmt_bind_param($progressStmt, "s", $userId);
 mysqli_stmt_execute($progressStmt);
@@ -41,6 +41,33 @@ $progressResult = mysqli_stmt_get_result($progressStmt);
       position: relative;
       margin-top: -95px;
       transition: all .5s ease;
+    }
+    .remarks_container {
+      width: auto;
+      height: 100px;
+      text-align: left;
+      margin-left: 15px;
+      margin-top: 15px;
+      box-sizing: border-box;
+      background: #fff;
+      border-style: solid;
+      border-color: #297582;
+      margin-right: 15px;
+    }
+    .remarks_container h5 {
+      font-size: 15px;
+      color: #000;
+      margin-left: 5px;
+      font-weight: normal;
+    }
+    .remarks_container h5 span {
+      font-size: 15px;
+      color: #000;
+      margin-left: 5px;
+      font-weight: bold;
+    }
+    .weekly_pt {
+      margin-top: 20px;
     }
   </style>
 </head>
@@ -103,6 +130,7 @@ $progressResult = mysqli_stmt_get_result($progressStmt);
         while ($progressRow = mysqli_fetch_assoc($progressResult)) {
           $week = $progressRow['week'];
           $progressPercent = $progressRow['percent'];
+          $remarks = $progressRow['remark'];
 
           ?>
           <form method="POST" action="<?php echo htmlspecialchars($_SERVER['PHP_SELF']); ?>">
@@ -135,15 +163,15 @@ $progressResult = mysqli_stmt_get_result($progressStmt);
                     <h3>Activities</h3>
                   </a>
                 </div>
-              </div>
-
-              <div class="remarks">
-                <div class="remarks_container">
-                  
-                </div>
-              </div>
-              
+              </div>    
             </div>
+
+            <div class="remarks">
+              <div class="remarks_container">
+                <h5><span>Remarks:</span> <br> <?php echo $remarks ?> </h5>
+              </div>
+            </div>
+
             <?php
               }
             } else {

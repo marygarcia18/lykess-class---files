@@ -19,6 +19,7 @@ if ($results) {
       $score = $_POST["inputScore"];
       $week = $_POST["inputWeek"];
       $average = $score / $item * 100;
+      $remarks = $_POST["inputRemarks"];
 
 
 
@@ -33,7 +34,7 @@ if ($results) {
           $firstName = $nameRow['stud_fname'];
           $surname = $nameRow['stud_lname'];
 
-          $updateQuery = "UPDATE progress SET percent='$average', item='$item', score='$score', stud_fname='$firstName', stud_lname='$surname'
+          $updateQuery = "UPDATE progress SET percent='$average', item='$item', score='$score', stud_fname='$firstName', stud_lname='$surname', remark='$remarks'
                             WHERE studID_number = '$studentId' AND week = '$week'";
           $results = executesQuery($updateQuery);
         } else {
@@ -47,8 +48,8 @@ if ($results) {
         if ($nameRow = mysqli_fetch_assoc($nameResult)) {
           $firstName = $nameRow['stud_fname'];
           $surname = $nameRow['stud_lname'];
-        $insertQuery = "INSERT INTO progress (studID_number, percent, item, score, week, stud_fname, stud_lname)
-                        VALUES ('$studentId', '$average', '$item', '$score', '$week', '$firstName', '$surname')";
+        $insertQuery = "INSERT INTO progress (studID_number, percent, item, score, week, stud_fname, stud_lname, remark)
+                        VALUES ('$studentId', '$average', '$item', '$score', '$week', '$firstName', '$surname', $remarks)";
         $results = executesQuery($insertQuery);
       }
       
@@ -62,7 +63,7 @@ if ($results) {
   }
 }
 
-if (isset($_POST["remark-btn"])) {
+/*if (isset($_POST["remark-btn"])) {
   $remark = $_POST['remark'];
   $studentIdForRemarks = $_POST['student_id_for_remarks'];
 
@@ -79,7 +80,7 @@ if (isset($_POST["remark-btn"])) {
 
   header("Location: classList.php");
   exit();
-}
+} */
 
 
 ?>
@@ -136,6 +137,19 @@ if (isset($_POST["remark-btn"])) {
       padding: 15px;
       background-color: #f9f9f9;
     }
+
+    textarea {
+      width: 100%;
+      height: 100px;
+      padding: 12px 20px;
+      box-sizing: border-box;
+      border: 2px solid #ccc;
+      border-radius: 4px;
+      background-color: #f8f8f8;
+      font-size: 16px;
+      resize: none;
+    }
+    
   </style>
 </head>
 
@@ -294,6 +308,10 @@ if (isset($_POST["remark-btn"])) {
                             <h5>Number of Items</h5>
                             <input type="number" class="inputItem" name="inputItem" id="inputItem">
                           </div>
+                          <div>
+                            <h5>Remarks</h5>
+                            <textarea name="inputRemarks" id="inputRemarks" name="inputRemarks" cols="30" rows="10"></textarea>
+                          </div>
                       </div>
                       <button class="progress-btn" id="progress-btn" type="button">Calculate</button>
 
@@ -347,11 +365,7 @@ if (isset($_POST["remark-btn"])) {
                 </div>
               </div>
             </div>
-            <form method="POST">
-              <input type="hidden" name="student_id_for_remarks" value="<?php echo $idnumber; ?>">
-              <input type="text" class="remark" name="remark" placeholder="Your Remarks">
-              <input type="submit" class="remark-btn" name="remark-btn" value="Save">
-            </form>
+            
           </div>
           <?php
         }
