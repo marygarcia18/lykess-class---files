@@ -27,14 +27,15 @@ $progressResult = mysqli_stmt_get_result($progressStmt);
 
 
   <style>
-    .website-logo{
+    .website-logo {
       width: 50px;
       display: flex;
       align-items: center;
       position: relative;
       transition: all .5s ease;
     }
-    .sidebar.open .website-logo{
+
+    .sidebar.open .website-logo {
       width: 200px;
       display: flex;
       align-items: center;
@@ -42,6 +43,7 @@ $progressResult = mysqli_stmt_get_result($progressStmt);
       margin-top: -95px;
       transition: all .5s ease;
     }
+
     .remarks_container {
       width: auto;
       height: 100px;
@@ -54,20 +56,27 @@ $progressResult = mysqli_stmt_get_result($progressStmt);
       border-color: #297582;
       margin-right: 15px;
     }
+
     .remarks_container h5 {
       font-size: 15px;
       color: #000;
       margin-left: 5px;
       font-weight: normal;
     }
+
     .remarks_container h5 span {
       font-size: 15px;
       color: #000;
       margin-left: 5px;
       font-weight: bold;
     }
+
     .weekly_pt {
       margin-top: 20px;
+    }
+    .exercises_container a {
+      text-decoration: none;
+      color:#297582;
     }
   </style>
 </head>
@@ -133,61 +142,81 @@ $progressResult = mysqli_stmt_get_result($progressStmt);
           $remarks = $progressRow['remark'];
 
           ?>
-          <form method="POST" action="<?php echo htmlspecialchars($_SERVER['PHP_SELF']); ?>">
+      <form method="POST" action="<?php echo htmlspecialchars($_SERVER['PHP_SELF']); ?>">
 
-            <h2>  <?php echo "WEEK" . $week ?> </h2>
-            <div class="progressRate" style="width: <?php echo $progressPercent; ?>%;">
-              <?php echo $progressPercent; ?>%
+        <h2>
+          <?php echo "WEEK" . $week ?>
+        </h2>
+        <div class="progressRate" style="width: <?php echo $progressPercent; ?>%;">
+          <?php echo $progressPercent; ?>%
+        </div>
+
+        <div class="weekly_pt">
+          <div class="exercises_pt">
+            <div class="exercises_container">
+              <?php
+          $conn = mysqli_connect("localhost","root","","kinder_class");
+
+          $sql2 = "SELECT id, weekNum, file_t, file_w, file_a 
+                    FROM files
+                    WHERE weekNum='$week';";
+          $result2 = mysqli_query($conn, $sql2);
+          while($fetch = mysqli_fetch_assoc($result2))
+          {
+            echo "";
+
+        ?>
+              <a href="./<?php echo $fetch['file_t'] ?>" target="_blank" rel="noopener noreferrer">
+                <h3>Topic</h3>
+              </a>
             </div>
+          </div>
 
-            <div class="weekly_pt">
-              <div class="exercises_pt">
-                <div class="exercises_container">
-                  <a>
-                    <h3>Topic</h3>
-                  </a>
-                </div>
-              </div>
-
-              <div class="exercises_pt">
-                <div class="exercises_container">
-                  <a>
-                    <h3>Worksheet</h3>
-                  </a>
-                </div>
-              </div>
-
-              <div class="exercises_pt">
-                <div class="exercises_container">
-                  <a>
-                    <h3>Activities</h3>
-                  </a>
-                </div>
-              </div>    
+          <div class="exercises_pt">
+            <div class="exercises_container">
+              <a href="./<?php echo $fetch['file_w'] ?>" target="_blank" rel="noopener noreferrer">
+                <h3>Worksheet</h3>
+              </a>
             </div>
+          </div>
 
-            <div class="remarks">
-              <div class="remarks_container">
-                <h5><span>Remarks:</span> <br> <?php echo $remarks ?> </h5>
-              </div>
+          <div class="exercises_pt">
+            <div class="exercises_container">
+              <a href="./<?php echo $fetch['file_a'] ?>" target="_blank" rel="noopener noreferrer" style="">
+                <h3>Activities</h3>
+              </a>
             </div>
+          </div>
+          <?php
+            "";
+                } 
+          ?>
+        </div>
 
-            <?php
+        <div class="remarks">
+          <div class="remarks_container">
+            <h5><span>Remarks:</span> <br>
+              <?php echo $remarks ?>
+            </h5>
+          </div>
+        </div>
+
+        <?php
               }
             } else {
               echo "No Grades Input";
             }
             ?>
-            <div class="input-container" style="display: none;">
-              <div>
-                <h5>Total Score</h5>
-                <input type="number" name="inputScore" class="inputScore" id="input-score">
-              </div>
-              <div>
-                <h5>Number of Items</h5>
-                <input type="number" name="inputItem" class="inputItem" id="input-item">
-              </div>
-            </div>
+        <div class="input-container" style="display: none;">
+          <div>
+            <h5>Total Score</h5>
+            <input type="number" name="inputScore" class="inputScore" id="input-score">
+          </div>
+          <div>
+            <h5>Number of Items</h5>
+            <input type="number" name="inputItem" class="inputItem" id="input-item">
+          </div>
+        </div>
       </form>
     </div>
   </section>

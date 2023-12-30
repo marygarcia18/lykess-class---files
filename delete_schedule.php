@@ -8,7 +8,7 @@ if(!isset($_GET['id'])){
 
 $delete = $conn->query("DELETE FROM `schedule_list` where id = '{$_GET['id']}'");
 if($delete){
-    echo "<script> alert('Event has deleted successfully.'); location.replace('./indexx.php') </script>";
+    echo "<script> alert('Event has deleted successfully.'); location.replace('./delete_schedule.php') </script>";
 }else{
     echo "<pre>";
     echo "An Error occured.<br>";
